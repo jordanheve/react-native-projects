@@ -1,4 +1,5 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Animated } from "react-native";
+import { useRef, useEffect } from "react";
 
 export function GameCard({ game }) {
   return (
@@ -10,6 +11,26 @@ export function GameCard({ game }) {
     </View>
   );
 }
+
+export function AnimatedGameCard({ game, index }) {
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 500,
+      delay: 400,
+      useNativeDriver: true,
+    }).start();
+  }, [index, opacity]);
+
+  return (
+    <Animated.View style={{ opacity }}>
+      <GameCard game={game} />
+    </Animated.View>
+  );
+}
+
 const styles = StyleSheet.create({
   card: {
     margin: 10,
